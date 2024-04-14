@@ -20,7 +20,6 @@ const proxyMiddleware = createProxyMiddleware({
 // Update origin
 app.use((req, res, next) => {
 	req.headers.origin = config.server_url;
-	console.log("Request Headers 1:", req.headers);
 	next();
 });
 
