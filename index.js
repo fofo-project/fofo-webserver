@@ -17,22 +17,23 @@ const proxyMiddleware = createProxyMiddleware({
 	},
 });
 
-// Update origin
-app.use((req, res, next) => {
-	req.headers.origin = config.server_url;
-	next();
-});
-
-app.use(cors());
-
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, "dist")));
 
-// Use the proxy middleware
-app.use("/api", proxyMiddleware);
+app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "/dist/index.html"));
+});
 
-//
-app.use(express.static(path.join(__dirname, "dist")));
+// Use the proxy middleware
+app.use(
+	"/api",
+	cors(),
+	(req, res, next) => {
+		req.headers.origin = config.server_url;
+		next();
+	},
+	proxyMiddleware
+);
 
 // Start the server
 app.listen(PORT, () => {
