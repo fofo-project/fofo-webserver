@@ -20,9 +20,11 @@ const proxyMiddleware = createProxyMiddleware({
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, "dist")));
 
-app.get("/", (req, res) => {
+// Define the catch-all route for /page/*
+app.get("/page/*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
 });
+
 
 // Use the proxy middleware
 app.use(
