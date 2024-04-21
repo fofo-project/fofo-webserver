@@ -1,3 +1,3 @@
 export const config = {
-	server_url: "http://144.24.79.73:8080",
+	server_url: "https://core-server.fofo.world:8080",
 };
