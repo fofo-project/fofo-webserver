@@ -30,21 +30,37 @@ const app = express();
 const HTTPS_PORT = 443;
 const __dirname = path.resolve();
 
-// Create proxy middleware
-const proxyMiddleware = createProxyMiddleware({
-	target: config.server_url,
-	changeOrigin: true,
-	pathRewrite: {
-		"^/api": "",
-	},
-});
-
 // Serve static files from the 'dist' directory
 app.use(express.static(path.join(__dirname, "dist")));
 
 // Define the catch-all route for /page/*
 app.get("/page/*", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
+});
+
+// Create proxy middleware
+const proxyMiddleware = createProxyMiddleware({
+	target: config.server_url,
+	changeOrigin: true,
+	ssl: credentials,
+	onProxyReq: function onProxyReq(proxyReq, req, res) {
+		console.log(
+			"-->  ",
+			req.method,
+			req.path,
+			"->",
+			proxyReq.baseUrl + proxyReq.path
+		);
+	},
+	onError: function onError(err, req, res) {
+		console.error(err);
+		res.status(500);
+		res.json({ error: "Error when connecting to remote server." });
+	},
+	pathRewrite: {
+		"^/api": "",
+	},
+	secure: false,
 });
 
 // Use the proxy middleware
@@ -55,7 +71,11 @@ app.use(
 		req.headers.origin = config.server_url;
 		next();
 	},
-	proxyMiddleware
+	proxyMiddleware,
+	(req, res, next) => {
+		req.headers.origin = config.server_url;
+		next();
+	}
 );
 
 const httpsServer = https.createServer(credentials, app);
