@@ -49,12 +49,21 @@ export function applySession(app) {
 			next();
 		}
 	});
-	// user ,manage 분기후 제거
-	const proxyMiddleware = createProxyMiddleware({
-		pathRewrite: {
-			"^/user": "",
-			"^/manager": "",
+	app.use(
+		(req, res, next) => {
+			if (
+				!req.originalUrl.startsWith("/user") &&
+				!req.originalUrl.startsWith("/manager")
+			) {
+				return json({ message: "Invalid URL" });
+			}
+			next();
 		},
-	});
-	app.use(proxyMiddleware);
+		createProxyMiddleware({
+			pathRewrite: {
+				"^/user": "",
+				"^/manager": "",
+			},
+		})
+	);
 }
