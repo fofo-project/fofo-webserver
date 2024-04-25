@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				background-color: #f4f4f4;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.card {
+				width: 350px;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.card-header {
+				background-color: #007bff;
+				color: white;
+				text-align: center;
+				font-size: 24px;
+				padding: 10px 0;
+				border-radius: 5px 5px 0 0;
+			}
+
+			.form-group {
+				margin-bottom: 20px;
+			}
+
+			.btn-login {
+				background-color: #007bff;
+				color: white;
+				width: 100%;
+				border-radius: 5px;
+			}
+
+			.btn-login:hover {
+				background-color: #0056b3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="card">
+			<div class="card-header">Login</div>
+			<div class="card-body">
+				<form id="loginForm">
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input
+							type="text"
+							class="form-control"
+							id="username"
+							placeholder="Enter username"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input
+							type="password"
+							class="form-control"
+							id="password"
+							placeholder="Enter password"
+							required
+						/>
+					</div>
+					<button
+						type="button"
+						class="btn btn-login"
+						onclick="handleLogin()"
+					>
+						Login
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- jQuery and Bootstrap JS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script>
+			function handleLogin() {
+				const baseUrl = window.location.origin;
+				const username = document.getElementById("username").value;
+				const password = document.getElementById("password").value;
+
+				fetch(`${baseUrl}/login`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ username, password }),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (dtat.success) {
+							alert("관리자 로그인 성공, 재시도 해주세요");
+						} else {
+							if (data.locked) {
+								alert("10회 이상 시도, 5분 후 재시도 해주세요");
+							} else {
+								alert(
+									"로그인 실패, 10회 실패시 5분의 대기시간 발생"
+								);
+							}
+						}
+						console.log(data);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			}
+		</script>
+	</body>
+</html>
