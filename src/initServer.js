@@ -20,6 +20,11 @@ const credentials = {
 
 export function initServer() {
 	let app = express();
+
+	app.get("", (req, res, next) => {
+		res.redirect("/page/MemberForm");
+	});
+
 	app.use(express.static(path.join(__dirname, "dist")));
 	applySession(app);
 	applyApi(app, credentials);
