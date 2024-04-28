@@ -55,7 +55,9 @@ export function applySession(app) {
 	//제외 url등록
 	app.use((req, res, next) => {
 		const { method, url } = req;
-		if (method === "GET" && EXCEPT_URL.GET.includes(url)) {
+		if (method === "OPTIONS") {
+			next();
+		} else if (method === "GET" && EXCEPT_URL.GET.includes(url)) {
 			next();
 		} else if (method === "POST" && EXCEPT_URL.POST.includes(url)) {
 			next();
