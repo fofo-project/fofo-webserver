@@ -27,6 +27,11 @@ export function applySession(app) {
 	);
 
 	// 로그인 페이지
+	app.get("/", (req, res, next) => {
+		res.redirect("/page/login");
+	});
+
+	// 로그인 페이지
 	app.get("/login", (req, res, next) => {
 		res.sendFile(path.join(__dirname, "./login.html"));
 	});
