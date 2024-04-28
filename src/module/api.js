@@ -1,5 +1,6 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { config } from "../../config.js";
+import cors from "cors";
 
 export function applyApi(app, credentials) {
 	// Create proxy middleware
@@ -15,6 +16,7 @@ export function applyApi(app, credentials) {
 
 	app.use(
 		"/api",
+		cors(),
 		(req, res, next) => {
 			req.headers.origin = config.server_url;
 			next();
