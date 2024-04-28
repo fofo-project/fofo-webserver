@@ -1,9 +1,16 @@
 import expressSession from "express-session";
 import express from "express";
 import { v4 } from "uuid";
-import admin_config from "../../../admin_config.json";
+import admin_config from "../../../admin.js";
 
 export function applySession(app) {
+	const EXCEPT_URL = {
+		GET: ["/login", "/auth", "/page/MemberForm"],
+		POST: ["/api/member"],
+	};
+
+	const locked = new Set();
+
 	app.use(
 		expressSession({
 			secret: admin_config.SECRET + v4(),
@@ -15,8 +22,6 @@ export function applySession(app) {
 			},
 		})
 	);
-
-	const locked = new Set();
 
 	// 로그인 페이지
 	app.get("/login", (req, res, next) => {
@@ -43,12 +48,20 @@ export function applySession(app) {
 			res.json({ success: false, locked: false });
 		}
 	});
-}
 
-export function managerSessionMiddleware(req, res, next) {
-	if (req.session.isAdmin !== true) {
-		res.redirect("/login");
-	} else {
-		next();
-	}
+	//제외 url등록
+	app.use((req, res, next) => {
+		const { method, url } = req;
+		if (method === "GET" && EXCEPT_URL.GET.includes(url)) {
+			next();
+		} else if (method === "POST" && EXCEPT_URL.POST.includes(url)) {
+			next();
+		} else {
+			if (req.session.isAdmin !== true) {
+				res.redirect("/login");
+			} else {
+				next();
+			}
+		}
+	});
 }

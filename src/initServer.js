@@ -1,5 +1,5 @@
 import express from "express";
-import { applyApi } from "./module/proxy.js";
+import { applyApi } from "./module/api.js";
 import { applySession } from "./module/session.js";
 import { applyPage } from "./module/page.js";
 import fs from "fs";
@@ -19,7 +19,7 @@ export function initServer() {
 	let app = express();
 	applySession(app);
 	applyApi(app, credentials);
-	applyPage(app);
+	applyPage(app, express);
 	app = https.createServer(credentials, app);
 	return app;
 }

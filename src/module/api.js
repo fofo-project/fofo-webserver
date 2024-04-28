@@ -16,9 +16,6 @@ export function applyApi(app, credentials) {
 
 	app.use("/api", cors(), (req, res, next) => {
 		req.headers.origin = config.server_url;
-		next();
+		proxyMiddleware, next();
 	});
-
-	app.use("/api/manager", createProxyMiddleware, proxyMiddleware);
-	app.use("/api/user", proxyMiddleware);
 }
