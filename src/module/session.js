@@ -1,12 +1,12 @@
-import { createProxyMiddleware } from "http-proxy-middleware";
 import expressSession from "express-session";
-import admin_config from "../../admin.js";
 import express from "express";
+import { v4 } from "uuid";
+import admin_config from "../../../admin_config.json";
 
 export function applySession(app) {
 	app.use(
 		expressSession({
-			secret: admin_config.SECRET,
+			secret: admin_config.SECRET + v4(),
 			resave: true,
 			saveUninitialized: true,
 			cookie: {
