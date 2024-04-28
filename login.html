@@ -97,7 +97,7 @@
 				const username = document.getElementById("username").value;
 				const password = document.getElementById("password").value;
 
-				fetch(`${baseUrl}/login`, {
+				fetch(`${baseUrl}/auth`, {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
@@ -106,7 +106,7 @@
 				})
 					.then((response) => response.json())
 					.then((data) => {
-						if (dtat.success) {
+						if (data.success) {
 							alert("관리자 로그인 성공, 재시도 해주세요");
 							window.history.back();
 						} else {
@@ -118,10 +118,9 @@
 								);
 							}
 						}
-						console.log(data);
 					})
 					.catch((error) => {
-						console.error("Error:", error);
+						alert("Error:", error);
 					});
 			}
 		</script>

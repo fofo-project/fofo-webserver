@@ -4,6 +4,9 @@ import { applySession } from "./module/session.js";
 import { applyPage } from "./module/page.js";
 import fs from "fs";
 import https from "https";
+import path from "path";
+
+const __dirname = path.resolve();
 
 // Certificate 인증서 경로
 const credentials = {
@@ -17,6 +20,7 @@ const credentials = {
 
 export function initServer() {
 	let app = express();
+	app.use(express.static(path.join(__dirname, "dist")));
 	applySession(app);
 	applyApi(app, credentials);
 	applyPage(app, express);

@@ -1,12 +1,15 @@
 import expressSession from "express-session";
 import express from "express";
 import { v4 } from "uuid";
+import path from "path";
 import admin_config from "../../../admin.js";
+
+const __dirname = path.resolve();
 
 export function applySession(app) {
 	const EXCEPT_URL = {
-		GET: ["/login", "/auth", "/page/MemberForm"],
-		POST: ["/api/member"],
+		GET: ["/login", "/page/MemberForm"],
+		POST: ["/auth", "/api/member"],
 	};
 
 	const locked = new Set();
@@ -25,7 +28,7 @@ export function applySession(app) {
 
 	// 로그인 페이지
 	app.get("/login", (req, res, next) => {
-		res.sendFile(path.join(__dirname, "../../login.html"));
+		res.sendFile(path.join(__dirname, "./login.html"));
 	});
 
 	// 로그인 시도

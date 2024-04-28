@@ -14,8 +14,13 @@ export function applyApi(app, credentials) {
 		secure: false,
 	});
 
-	app.use("/api", cors(), (req, res, next) => {
-		req.headers.origin = config.server_url;
-		proxyMiddleware, next();
-	});
+	app.use(
+		"/api",
+		cors(),
+		(req, res, next) => {
+			req.headers.origin = config.server_url;
+			next();
+		},
+		proxyMiddleware
+	);
 }
