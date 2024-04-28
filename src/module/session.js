@@ -19,7 +19,9 @@ export function applySession(app) {
 	const locked = new Set();
 
 	// 로그인 페이지
-	app.get("/login", (req, res, next) => {});
+	app.get("/login", (req, res, next) => {
+		res.sendFile(path.join(__dirname, "../../login.html"));
+	});
 
 	// 로그인 시도
 	app.post("/auth", express.json(), (req, res, next) => {
