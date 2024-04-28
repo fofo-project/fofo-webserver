@@ -1,5 +1,5 @@
 import express from "express";
-import { applyProxy } from "./module/proxy.js";
+import { applyApi } from "./module/proxy.js";
 import { applySession } from "./module/session.js";
 import { applyPage } from "./module/page.js";
 import fs from "fs";
@@ -18,7 +18,7 @@ const credentials = {
 export function initServer() {
 	let app = express();
 	applySession(app);
-	applyProxy(app, credentials);
+	applyApi(app, credentials);
 	applyPage(app);
 	app = https.createServer(credentials, app);
 	return app;

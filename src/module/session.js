@@ -41,29 +41,12 @@ export function applySession(app) {
 			res.json({ success: false, locked: false });
 		}
 	});
+}
 
-	app.use("/manager/*", (req, res, next) => {
-		if (req.session.isAdmin !== true) {
-			res.redirect("/login");
-		} else {
-			next();
-		}
-	});
-	app.use(
-		(req, res, next) => {
-			if (
-				!req.originalUrl.startsWith("/user") &&
-				!req.originalUrl.startsWith("/manager")
-			) {
-				return json({ message: "Invalid URL" });
-			}
-			next();
-		},
-		createProxyMiddleware({
-			pathRewrite: {
-				"^/user": "",
-				"^/manager": "",
-			},
-		})
-	);
+export function managerSessionMiddleware(req, res, next) {
+	if (req.session.isAdmin !== true) {
+		res.redirect("/login");
+	} else {
+		next();
+	}
 }

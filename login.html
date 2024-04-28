@@ -108,6 +108,7 @@
 					.then((data) => {
 						if (dtat.success) {
 							alert("관리자 로그인 성공, 재시도 해주세요");
+							window.history.back();
 						} else {
 							if (data.locked) {
 								alert("10회 이상 시도, 5분 후 재시도 해주세요");
