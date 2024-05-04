@@ -23,4 +23,6 @@ echo "Build output copied to Express project's dist directory."
 
 # Start web&proxy server
 #pm2 start "${DEST_DIR}"/index.js
+
+npm i
 pm2 reload all
