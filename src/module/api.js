@@ -1,5 +1,5 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { config } from "../../config.js";
+import config from "../../../config.js";
 import cors from "cors";
 
 export function applyApi(app, credentials) {

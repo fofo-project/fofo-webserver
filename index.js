@@ -1,5 +1,5 @@
 import { initServer } from "./src/initServer.js";
-import { config } from "./config.js";
+import config from "../config.js";
 
 const app = initServer();
 
