@@ -13,7 +13,7 @@ export function initServer() {
 	let app = express();
 
 	app.get("", (req, res, next) => {
-		res.redirect("/page/MemberForm");
+		res.redirect("/page/WelcomeTo123");
 	});
 
 	app.use(express.static(path.join(__dirname, "dist")));
