@@ -8,7 +8,7 @@ const __dirname = path.resolve();
 
 export function applySession(app) {
 	const EXCEPT_URL = {
-		GET: ["/login", "/page/MemberForm"],
+		GET: ["/login", "/page/MemberForm", "/page/WelcomeTo123"],
 		POST: ["/auth", "/api/member"],
 	};
 
